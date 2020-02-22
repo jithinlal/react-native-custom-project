@@ -1,13 +1,13 @@
 import React from 'react';
-// import {Platform} from 'react-native';
 import {ThemeProvider} from 'react-native-elements';
 
 import MainNavigator from '~/navigations';
+import {Colors} from '~/styles';
 
 const theme = {
   colors: {
-    primary: '#5d59e3',
-    secondary: '#57aade',
+    primary: Colors.PRIMARY,
+    secondary: Colors.SECONDARY,
     grey0: '#bd48bb',
     grey1: '#bd48bb',
     grey2: '#bd48bb',
@@ -16,9 +16,9 @@ const theme = {
     grey5: '#bd48bb',
     greyOutline: '#bd48bb',
     searchBg: '#bd48bb',
-    success: '#62d162',
-    error: '#d1332e',
-    warning: '#e3b727',
+    success: Colors.SUCCESS,
+    warning: Colors.WARNING,
+    error: Colors.ERROR,
     divider: '#000000',
   },
 

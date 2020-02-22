@@ -58,7 +58,8 @@
 		<string>Montserrat-Bold.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 		<string>FiraSans-Bold.ttf</string>
-		<string>FiraSans-Regular.ttf</string>
+		<string>FiraSans-Regular.ttf</string>	
+    <string>Ionicons.ttf</string>    
 	</array>
 </dict>
 </plist>
