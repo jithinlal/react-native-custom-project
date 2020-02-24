@@ -3,13 +3,13 @@ import {StyleSheet, Platform, View, KeyboardAvoidingView} from 'react-native';
 import {withTheme, Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';
-import Toast from 'react-native-simple-toast';
+import Toast from 'react-native-root-toast';
 
 import {Typography, Colors} from '~/styles';
 import * as authActions from '~/store/actions/auth.actions';
 
-import LoginCard from '~/component/login-card';
-import RegisterCard from '~/component/register-card';
+import LoginCard from '~/components/login-card';
+import RegisterCard from '~/components/register-card';
 
 const AuthScreen = props => {
   const dispatch = useDispatch();
@@ -22,7 +22,10 @@ const AuthScreen = props => {
         await dispatch(authActions.signup(values));
       }
     } catch (error) {
-      Toast.show(error);
+      Toast.show(error, {
+        backgroundColor: Colors.ERROR,
+        textColor: Colors.WHITE,
+      });
       actions.setSubmitting(false);
     }
   };
