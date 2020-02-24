@@ -10,10 +10,11 @@ const registerValidationSchema = Yup.object().shape({
     .required('Please enter an email!'),
   password: Yup.string()
     .label('Password')
-    .required('Please enter a password'),
+    .required()
+    .min(6, 'Password must be 6 characters in length'),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref('password'), null],
-    'Password must match',
+    'Passwords must match',
   ),
 });
 

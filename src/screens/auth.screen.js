@@ -3,6 +3,7 @@ import {StyleSheet, Platform, View, KeyboardAvoidingView} from 'react-native';
 import {withTheme, Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import {Typography, Colors} from '~/styles';
 import * as authActions from '~/store/actions/auth.actions';
@@ -11,8 +12,22 @@ import LoginCard from '~/component/login-card';
 import RegisterCard from '~/component/register-card';
 
 const AuthScreen = props => {
-  const [isLogin, setIsLogin] = useState(true);
   const dispatch = useDispatch();
+
+  const authFormHandler = async (values, actions) => {
+    try {
+      if (isLogin) {
+        await dispatch(authActions.login(values));
+      } else {
+        await dispatch(authActions.signup(values));
+      }
+    } catch (error) {
+      Toast.show(error);
+      actions.setSubmitting(false);
+    }
+  };
+
+  const [isLogin, setIsLogin] = useState(true);
   // const {theme} = props;
 
   props.navigation.setOptions({
@@ -25,18 +40,6 @@ const AuthScreen = props => {
     headerShown: false,
   });
 
-  const authFormHandler = async values => {
-    try {
-      if (isLogin) {
-        dispatch(authActions.login(values));
-      } else {
-        dispatch(authActions.signup(values));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -46,17 +49,9 @@ const AuthScreen = props => {
         colors={[Colors.PRIMARY, Colors.SECONDARY]}
         style={styles.gradientContainer}>
         {isLogin ? (
-          <LoginCard
-            onSubmit={values => {
-              authFormHandler(values);
-            }}
-          />
+          <LoginCard onFormSubmit={authFormHandler} />
         ) : (
-          <RegisterCard
-            onSubmit={values => {
-              authFormHandler(values);
-            }}
-          />
+          <RegisterCard onFormSubmit={authFormHandler} />
         )}
         <View>
           <Button

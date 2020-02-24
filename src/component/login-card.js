@@ -5,13 +5,13 @@ import {Formik} from 'formik';
 
 import loginValidationSchema from '~/utils/login.validation';
 
-const LoginCard = ({onSubmit}) => {
+const LoginCard = ({onFormSubmit}) => {
   return (
     <Card title="LOGIN" containerStyle={styles.cardContainer}>
       <Formik
         initialValues={{email: '', password: ''}}
-        onSubmit={values => {
-          onSubmit(values);
+        onSubmit={(values, actions) => {
+          onFormSubmit(values, actions);
         }}
         validationSchema={loginValidationSchema}>
         {({

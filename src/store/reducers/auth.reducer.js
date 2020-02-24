@@ -8,12 +8,16 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      console.log(action);
-      return state;
+      return {
+        token: action.token,
+        uid: action.userId,
+      };
 
     case SIGNUP:
-      console.log(action);
-      return state;
+      return {
+        token: action.token,
+        uid: action.userId,
+      };
 
     default:
       return state;

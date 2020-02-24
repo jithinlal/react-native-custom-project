@@ -5,13 +5,18 @@ import {Formik} from 'formik';
 
 import registerValidationSchema from '~/utils/register.validation';
 
-const RegisterCard = ({onSubmit}) => {
+const RegisterCard = ({onFormSubmit}) => {
   return (
     <Card title="SIGNUP" containerStyle={styles.cardContainer}>
       <Formik
-        initialValues={{name: '', email: '', password: '', confirmPassword: ''}}
-        onSubmit={values => {
-          onSubmit(values);
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        }}
+        onSubmit={(values, actions) => {
+          onFormSubmit(values, actions);
         }}
         validationSchema={registerValidationSchema}>
         {({
