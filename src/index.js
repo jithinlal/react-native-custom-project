@@ -1,8 +1,19 @@
 import React from 'react';
 import {ThemeProvider} from 'react-native-elements';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import ReduxThunk from 'redux-thunk';
+
+import authReducer from '~/store/reducers/auth.reducer';
 
 import MainNavigator from '~/navigations';
 import {Colors} from '~/styles';
+
+// state management logic
+const rootReducer = combineReducers({
+  auth: authReducer,
+});
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const theme = {
   colors: {
@@ -29,9 +40,11 @@ const theme = {
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <MainNavigator />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <MainNavigator />
+      </ThemeProvider>
+    </Provider>
   );
 };
 

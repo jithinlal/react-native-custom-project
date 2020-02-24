@@ -1,13 +1,18 @@
-import React from 'react';
-import {View, StyleSheet, Platform, KeyboardAvoidingView} from 'react-native';
-import {Card, Button, Input, Icon, withTheme} from 'react-native-elements';
-import {Formik} from 'formik';
+import React, {useState} from 'react';
+import {StyleSheet, Platform, View, KeyboardAvoidingView} from 'react-native';
+import {withTheme, Button} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
 
 import {Typography, Colors} from '~/styles';
-import loginValidationSchema from '~/utils/login.validation';
+import * as authActions from '~/store/actions/auth.actions';
+
+import LoginCard from '~/component/login-card';
+import RegisterCard from '~/component/register-card';
 
 const AuthScreen = props => {
+  const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useDispatch();
   // const {theme} = props;
 
   props.navigation.setOptions({
@@ -19,6 +24,19 @@ const AuthScreen = props => {
     // title: 'LOGIN',
     headerShown: false,
   });
+
+  const authFormHandler = async values => {
+    try {
+      if (isLogin) {
+        dispatch(authActions.login(values));
+      } else {
+        dispatch(authActions.signup(values));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -27,76 +45,33 @@ const AuthScreen = props => {
       <LinearGradient
         colors={[Colors.PRIMARY, Colors.SECONDARY]}
         style={styles.gradientContainer}>
-        <Card title="Login" containerStyle={styles.cardContainer}>
-          <Formik
-            initialValues={{email: '', password: ''}}
+        {isLogin ? (
+          <LoginCard
             onSubmit={values => {
-              console.log(values);
+              authFormHandler(values);
             }}
-            validationSchema={loginValidationSchema}>
-            {({
-              handleChange,
-              values,
-              handleSubmit,
-              errors,
-              isValid,
-              isSubmitting,
-              touched,
-              handleBlur,
-            }) => (
-              <>
-                <View style={styles.inputContainer}>
-                  <Input
-                    name="email"
-                    value={values.email}
-                    placeholder="Enter email"
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                    errorMessage={touched.email && errors.email}
-                    leftIcon={
-                      <Icon
-                        type="ionicon"
-                        name={
-                          Platform.OS === 'android'
-                            ? 'md-contact'
-                            : 'ios-contact'
-                        }
-                      />
-                    }
-                    leftIconContainerStyle={styles.iconContainer}
-                  />
-                  <Input
-                    name="password"
-                    value={values.password}
-                    secureTextEntry
-                    placeholder="Enter password"
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    errorMessage={touched.password && errors.password}
-                    leftIcon={
-                      <Icon
-                        type="ionicon"
-                        name={
-                          Platform.OS === 'android' ? 'md-lock' : 'ios-lock'
-                        }
-                      />
-                    }
-                    leftIconContainerStyle={styles.iconContainer}
-                  />
-                </View>
-                <View>
-                  <Button
-                    type="outline"
-                    onPress={handleSubmit}
-                    title="Login"
-                    disabled={!isValid || isSubmitting}
-                    loading={isSubmitting}
-                  />
-                </View>
-              </>
-            )}
-          </Formik>
-        </Card>
+          />
+        ) : (
+          <RegisterCard
+            onSubmit={values => {
+              authFormHandler(values);
+            }}
+          />
+        )}
+        <View>
+          <Button
+            type="clear"
+            title={
+              !isLogin
+                ? 'Already a user? Please login'
+                : 'New here? Please Register'
+            }
+            onPress={() => {
+              setIsLogin(state => !state);
+            }}
+            titleStyle={styles.textSwitchStyle}
+          />
+        </View>
       </LinearGradient>
     </KeyboardAvoidingView>
   );
@@ -126,6 +101,9 @@ const styles = StyleSheet.create({
   iconContainer: {marginRight: 10},
   text: {
     fontFamily: Typography.FONT_FAMILY_BOLD,
+  },
+  textSwitchStyle: {
+    color: Colors.WHITE,
   },
 });
 
