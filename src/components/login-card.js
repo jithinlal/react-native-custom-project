@@ -9,7 +9,7 @@ const LoginCard = ({onFormSubmit}) => {
   return (
     <Card title="LOGIN" containerStyle={styles.cardContainer}>
       <Formik
-        initialValues={{email: '', password: ''}}
+        initialValues={{email: 'a@a.com', password: '123456'}}
         onSubmit={(values, actions) => {
           onFormSubmit(values, actions);
         }}
