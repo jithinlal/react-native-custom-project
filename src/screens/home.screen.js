@@ -10,9 +10,11 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {withTheme, Card, Button, Icon} from 'react-native-elements';
 import Toast from 'react-native-root-toast';
+import NumberFormat from 'react-number-format';
 
-import * as productActions from '~/store/actions/product.actions';
 import {Typography, Colors} from '~/styles';
+import * as productActions from '~/store/actions/product.actions';
+import * as cartActions from '~/store/actions/cart.actions';
 
 const HomeScreen = ({theme, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +77,9 @@ const HomeScreen = ({theme, navigation}) => {
       <Button
         style={styles.headerButtonRight}
         type="clear"
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate('Cart');
+        }}
         icon={
           <Icon
             type="ionicon"
@@ -111,6 +115,15 @@ const HomeScreen = ({theme, navigation}) => {
           <View style={styles.cardButtonContainer}>
             <Button
               type="clear"
+              onPress={() => {
+                dispatch(
+                  cartActions.addItem({
+                    id: item.id,
+                    name: item.name,
+                    price: +item.price,
+                  }),
+                );
+              }}
               icon={
                 <Icon
                   type="ionicon"
@@ -119,6 +132,13 @@ const HomeScreen = ({theme, navigation}) => {
                   color={Colors.SECONDARY}
                 />
               }
+            />
+            <NumberFormat
+              value={item.price}
+              displayType="text"
+              thousandSeparator={true}
+              prefix={'$'}
+              renderText={value => <Text style={styles.price}>{value}</Text>}
             />
             <Button
               type="clear"
@@ -168,6 +188,11 @@ const styles = StyleSheet.create({
   cardButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  price: {
+    fontFamily: Typography.FONT_FAMILY_BOLD,
+    fontSize: 23,
+    alignItems: 'center',
   },
   headerButtonRight: {marginRight: 10},
   headerButtonLeft: {marginLeft: 10},

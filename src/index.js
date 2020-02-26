@@ -6,6 +6,7 @@ import ReduxThunk from 'redux-thunk';
 
 import authReducer from '~/store/reducers/auth.reducer';
 import productReducer from '~/store/reducers/product.reducer';
+import cartReducer from '~/store/reducers/cart.reducer';
 
 import MainNavigator from '~/navigations';
 import {Colors} from '~/styles';
@@ -14,6 +15,7 @@ import {Colors} from '~/styles';
 const rootReducer = combineReducers({
   auth: authReducer,
   product: productReducer,
+  cart: cartReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 

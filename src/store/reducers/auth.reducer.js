@@ -9,12 +9,14 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
       return {
+        ...state,
         token: action.token,
         uid: action.userId,
       };
 
     case SIGNUP:
       return {
+        ...state,
         token: action.token,
         uid: action.userId,
       };
