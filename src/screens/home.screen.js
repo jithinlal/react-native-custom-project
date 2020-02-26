@@ -66,7 +66,7 @@ const HomeScreen = ({theme, navigation}) => {
             type="ionicon"
             name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
             size={32}
-            color={Colors.PRIMARY}
+            color={Platform.OS === 'android' ? 'white' : Colors.PRIMARY}
           />
         }
       />
@@ -81,7 +81,7 @@ const HomeScreen = ({theme, navigation}) => {
             type="ionicon"
             name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
             size={32}
-            color={Colors.PRIMARY}
+            color={Platform.OS === 'android' ? 'white' : Colors.PRIMARY}
           />
         }
       />

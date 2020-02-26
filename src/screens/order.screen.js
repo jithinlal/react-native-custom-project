@@ -25,7 +25,7 @@ const OrderScreen = ({navigation, theme}) => {
             type="ionicon"
             name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
             size={32}
-            color={Colors.PRIMARY}
+            color={Platform.OS === 'android' ? 'white' : Colors.PRIMARY}
           />
         }
       />
