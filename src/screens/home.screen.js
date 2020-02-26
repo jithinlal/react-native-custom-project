@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {withTheme, Card} from 'react-native-elements';
+import {withTheme, Card, Button, Icon} from 'react-native-elements';
 import Toast from 'react-native-root-toast';
 
 import * as productActions from '~/store/actions/product.actions';
@@ -48,12 +48,44 @@ const HomeScreen = ({theme, navigation}) => {
 
   // set navigation styles in the header
   navigation.setOptions({
+    title: 'Home',
     headerStyle: {
       backgroundColor:
         Platform.OS === 'android' ? theme.colors.primary : 'white',
     },
     headerTintColor: Platform.OS === 'android' ? 'white' : theme.colors.primary,
-    title: 'Home',
+    headerLeft: () => (
+      <Button
+        style={styles.headerButtonLeft}
+        type="clear"
+        onPress={() => {
+          navigation.openDrawer();
+        }}
+        icon={
+          <Icon
+            type="ionicon"
+            name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            size={32}
+            color={Colors.PRIMARY}
+          />
+        }
+      />
+    ),
+    headerRight: () => (
+      <Button
+        style={styles.headerButtonRight}
+        type="clear"
+        onPress={() => {}}
+        icon={
+          <Icon
+            type="ionicon"
+            name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+            size={32}
+            color={Colors.PRIMARY}
+          />
+        }
+      />
+    ),
   });
 
   if (isLoading) {
@@ -71,8 +103,35 @@ const HomeScreen = ({theme, navigation}) => {
           title={item.name}
           image={{uri: item.imageUrl}}
           key={item.id}
+          containerStyle={styles.cardContainer}
           titleStyle={styles.titleText}>
-          <Text style={styles.text}>{item.description}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>{item.description}</Text>
+          </View>
+          <View style={styles.cardButtonContainer}>
+            <Button
+              type="clear"
+              icon={
+                <Icon
+                  type="ionicon"
+                  name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                  size={32}
+                  color={Colors.SECONDARY}
+                />
+              }
+            />
+            <Button
+              type="clear"
+              icon={
+                <Icon
+                  type="ionicon"
+                  name={Platform.OS === 'android' ? 'md-eye' : 'ios-eye'}
+                  size={32}
+                  color={Colors.SECONDARY}
+                />
+              }
+            />
+          </View>
         </Card>
       ))}
     </ScrollView>
@@ -88,6 +147,9 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  cardContainer: {
+    borderRadius: 5,
+  },
   listContainer: {
     width: '100%',
     padding: 20,
@@ -95,10 +157,20 @@ const styles = StyleSheet.create({
   titleText: {
     fontFamily: Typography.FONT_FAMILY_BOLD,
   },
+  textContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   text: {
     marginBottom: 10,
     fontFamily: Typography.FONT_FAMILY_REGULAR,
   },
+  cardButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  headerButtonRight: {marginRight: 10},
+  headerButtonLeft: {marginLeft: 10},
 });
 
 export default withTheme(HomeScreen); // helps to get the theme in the props
