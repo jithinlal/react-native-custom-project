@@ -60,6 +60,7 @@ const LoginCard = ({onFormSubmit}) => {
             </View>
             <View>
               <Button
+                containerStyle={styles.loginBtnContainer}
                 type="outline"
                 onPress={handleSubmit}
                 title="Login"
@@ -78,11 +79,15 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '80%',
     padding: 20,
+    borderRadius: 10,
   },
   inputContainer: {
     paddingVertical: 10,
   },
   iconContainer: {marginRight: 10},
+  loginBtnContainer: {
+    borderRadius: 5,
+  },
 });
 
 export default LoginCard;
