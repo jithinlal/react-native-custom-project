@@ -39,6 +39,7 @@ export default (state = initialState, action) => {
 
       const itemTotal = state.items[action.id].price;
       const itemQuantity = parseInt(state.items[action.id].quantity, 10);
+      const itemName = state.items[action.id].name;
 
       let updatedItems = {...state.items};
       let updatedTotalAmount;
@@ -50,7 +51,7 @@ export default (state = initialState, action) => {
         let updatedCartItem = new Cart(
           action.id,
           itemQuantity - 1,
-          action.name,
+          itemName,
           itemTotal - singleItemPrice,
         );
         updatedTotalAmount = state.totalAmount - singleItemPrice;

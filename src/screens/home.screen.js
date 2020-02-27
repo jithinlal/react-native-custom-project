@@ -145,6 +145,9 @@ const HomeScreen = ({theme, navigation}) => {
               icon={
                 <Icon
                   type="ionicon"
+                  onPress={() => {
+                    navigation.navigate('Detail', {id: item.id});
+                  }}
                   name={Platform.OS === 'android' ? 'md-eye' : 'ios-eye'}
                   size={32}
                   color={Colors.SECONDARY}

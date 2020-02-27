@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, Text, Platform, StyleSheet} from 'react-native';
 import {withTheme, Button, ListItem, Icon} from 'react-native-elements';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import NumberFormat from 'react-number-format';
 
 import {Colors, Typography} from '~/styles';
+import * as cartActions from '~/store/actions/cart.actions';
 
 const CartScreen = ({navigation, theme}) => {
+  const dispatch = useDispatch();
   const totalAmount = useSelector(state => state.cart.totalAmount);
   const transformedItems = [];
   const items = useSelector(state => {
@@ -24,7 +26,6 @@ const CartScreen = ({navigation, theme}) => {
       a.id > b.id ? 1 : -1;
     });
   });
-  console.log(items);
 
   // set navigation styles in the header
   navigation.setOptions({
@@ -38,7 +39,7 @@ const CartScreen = ({navigation, theme}) => {
 
   return (
     <View>
-      {transformedItems.map((item, index) => (
+      {items.map((item, index) => (
         <ListItem
           key={item.id}
           title={item.name}
@@ -59,6 +60,9 @@ const CartScreen = ({navigation, theme}) => {
               icon={
                 <Icon
                   type="ionicon"
+                  onPress={() => {
+                    dispatch(cartActions.deleteItem(item.id));
+                  }}
                   name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
                   size={32}
                   color={Colors.ERROR}
