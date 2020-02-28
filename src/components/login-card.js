@@ -5,10 +5,11 @@ import {Formik} from 'formik';
 
 import Morph from '~/components/morph';
 import loginValidationSchema from '~/utils/login.validation';
+import {Colors} from '~/styles';
 
 const LoginCard = ({onFormSubmit}) => {
   return (
-    <Morph style={styles.morphStyle}>
+    <Morph style={styles.morphStyle} mainColor={Colors.PRIMARY}>
       <Card title="LOGIN" containerStyle={styles.cardContainer}>
         <Formik
           initialValues={{email: 'a@a.com', password: '123456'}}

@@ -13,6 +13,7 @@ import Toast from 'react-native-root-toast';
 import NumberFormat from 'react-number-format';
 
 import {Typography, Colors} from '~/styles';
+import Morph from '~/components/morph';
 import * as productActions from '~/store/actions/product.actions';
 import * as cartActions from '~/store/actions/cart.actions';
 
@@ -133,13 +134,15 @@ const HomeScreen = ({theme, navigation}) => {
                 />
               }
             />
-            <NumberFormat
-              value={item.price}
-              displayType="text"
-              thousandSeparator={true}
-              prefix={'$'}
-              renderText={value => <Text style={styles.price}>{value}</Text>}
-            />
+            <Morph mainColor={'#fff'} style={styles.priceMorphContainer}>
+              <NumberFormat
+                value={item.price}
+                displayType="text"
+                thousandSeparator={true}
+                prefix={'$'}
+                renderText={value => <Text style={styles.price}>{value}</Text>}
+              />
+            </Morph>
             <Button
               type="clear"
               icon={
@@ -196,6 +199,12 @@ const styles = StyleSheet.create({
     fontFamily: Typography.FONT_FAMILY_BOLD,
     fontSize: 23,
     alignItems: 'center',
+  },
+  priceMorphContainer: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
   },
   headerButtonRight: {marginRight: 10},
   headerButtonLeft: {marginLeft: 10},

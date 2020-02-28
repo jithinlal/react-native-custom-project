@@ -2,13 +2,23 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import color from 'color';
 
-import {Colors} from '~/styles';
-
-const Morph = ({radius, style, revert, borderless, children}) => {
+const Morph = ({radius, style, revert, borderless, children, mainColor}) => {
   const topStyles = StyleSheet.flatten([
-    styles.morphTop,
+    {
+      borderRadius: 10,
+      // box-shadow is equivalent to shadow style in React Native
+      shadowOffset: {
+        width: -6,
+        height: -6,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 6,
+      shadowColor: color(mainColor)
+        .lighten(0.5)
+        .alpha(0.5), // this should be lighter shadow
+    },
     revert && {
-      shadowColor: color(Colors.PRIMARY)
+      shadowColor: color(mainColor)
         .darken(0.3)
         .alpha(0.5),
     },
@@ -16,16 +26,35 @@ const Morph = ({radius, style, revert, borderless, children}) => {
     style,
   ]);
   const bottomStyles = StyleSheet.flatten([
-    styles.morphBottom,
+    {
+      borderRadius: 10,
+      // box-shadow is equivalent to shadow style in React Native
+      shadowOffset: {
+        width: 6,
+        height: 6,
+      },
+      shadowOpacity: 1,
+      shadowRadius: 6,
+      shadowColor: color(mainColor)
+        .darken(0.3)
+        .alpha(0.5), // this should be darker shadow
+    },
     revert && {
-      shadowColor: color(Colors.PRIMARY)
+      shadowColor: color(mainColor)
         .darken(0.5)
         .alpha(0.5),
     },
     {borderRadius: radius || 10},
   ]);
   const morphStyles = StyleSheet.flatten([
-    styles.morph,
+    {
+      borderRadius: 10,
+      borderWidth: 1,
+      backgroundColor: mainColor,
+      borderColor: color(mainColor)
+        .lighten(0.5)
+        .alpha(0.2),
+    },
     borderless && {borderWidth: 0},
     {borderRadius: radius || 10},
   ]);
@@ -38,42 +67,5 @@ const Morph = ({radius, style, revert, borderless, children}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  morph: {
-    borderRadius: 10,
-    borderWidth: 1,
-    backgroundColor: Colors.PRIMARY,
-    borderColor: color(Colors.PRIMARY)
-      .lighten(0.5)
-      .alpha(0.2),
-  },
-  morphTop: {
-    borderRadius: 10,
-    // box-shadow is equivalent to shadow style in React Native
-    shadowOffset: {
-      width: -6,
-      height: -6,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 6,
-    shadowColor: color(Colors.PRIMARY)
-      .lighten(0.5)
-      .alpha(0.5), // this should be lighter shadow
-  },
-  morphBottom: {
-    borderRadius: 10,
-    // box-shadow is equivalent to shadow style in React Native
-    shadowOffset: {
-      width: 6,
-      height: 6,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 6,
-    shadowColor: color(Colors.PRIMARY)
-      .darken(0.3)
-      .alpha(0.5), // this should be darker shadow
-  },
-});
 
 export default Morph;
